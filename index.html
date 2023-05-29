@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    
+    <!-- Meta Tag -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- SEO -->
+    <meta name="description" content="150 words">
+    <meta name="author" content="FindMyClinicalTrial">
+    <meta name="url" content="https://findmyclinicaltrial.org/">
+    <meta name="copyright" content="FindMyClinicalTrial">
+    <meta name="robots" content="index,follow">
+      
+    <title>FindMyClinicalTrial</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    </head>
+    <body class="bg-light">
+        <div class="container">
+            <div class="shadow p-5 mt-5 mb-5 bg-white rounded">
+                <form id="searchForm">
+                    <div class="form-group">
+                        <label for="conditionSearch">Condition or Disease</label>
+                        <input type="text" class="form-control" id="conditionSearch" aria-describedby="conditionHelp" placeholder="Enter Condition">
+                        <small id="conditionHelp" class="form-text text-muted">Enter the condition or desease in this box.</small>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <label for="countryFilter">Country</label>
+                        <input type="text" class="form-control" id="countryFilter" aria-describedby="countryHelp" placeholder="Enter Country">
+                        <small id="countryHelp" class="form-text text-muted">Enter the country in this box.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="stateFilter">State</label>
+                        <input type="text" class="form-control" id="stateFilter" aria-describedby="stateHelp" placeholder="Enter State">
+                        <small istateHelp" class="form-text text-muted">Enter the state in this box.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="cityFilter">City</label>
+                        <input type="text" class="form-control" id="cityFilter" aria-describedby="cityHelp" placeholder="Enter City">
+                        <small id="cityHelp" class="form-text text-muted">Enter the city in this box.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="rangeFromCity">Range from city</label>
+                        <select class="form-control" id="rangeFromCity">
+                            <option value="5">5 miles</option>
+                            <option value="10">10 miles</option>
+                            <option value="50">50 miles</option>
+                            <option value="75">75 miles</option>
+                            <option value="100">100 miles</option>
+                        </select>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <label for="ageRange">Age range</label>
+                        <select class="form-control" id="ageRange">
+                            <option value="0-17">Child (Birth - 17)</option>
+                            <option value="18-64">Adult (18 - 64)</option>
+                            <option value="65-120">Older Adults (65+)</option>
+                        </select>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        Clinical Trial Phase
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="phase1" id="phase1">
+                            <label class="form-check-label" for="phase1">
+                                Early Phase 1
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="phase2" id="phase2">
+                            <label class="form-check-label" for="phase2">
+                                Phase 2
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="phase3" id="phase3">
+                            <label class="form-check-label" for="phase3">
+                                Phase 3
+                            </label>
+                        </div>
+                    </div>
+                    <hr>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                  </form>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="script.js"></script>
+
+    </body>
+</html>

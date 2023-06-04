@@ -39,14 +39,14 @@ document.getElementById('searchForm').addEventListener('submit', function(event)
         searchQ += ")";
         
     }
-    // searchQ += " AND AREA[MinimumAge]" + ageValues[0];
-    // searchQ += " AND AREA[MaximumAge]" + ageValues[1];
+    searchQ += " AND AREA[MinimumAge] RANGE[" + ageValues[0] + " years, MAX]";
+    searchQ += " AND AREA[MaximumAge] RANGE[MIN, " + ageValues[1] + " years]";
 
     console.log(searchQ);
 
-    var query = "https://clinicaltrials.gov/api/query/study_fields?expr="; //heart+attack&field=Condition&expr=14&field=age&fmt=xml"
+    var query = "https://clinicaltrials.gov/api/query/study_fields?expr="; 
     query += escape(searchQ).replaceAll('%20','+');
-    query += "&fields=NCTId%2CBriefTitle%2CCondition%2CLocationCity%2CLocationState%2CLocationCountry&min_rnk=1&max_rnk=10&fmt=xml";
+    query += "&fields=NCTId%2CBriefTitle%2CCondition%2CLocationCity%2CLocationState%2CLocationCountry%2CMinimumAge%2CMaximumAge&min_rnk=1&max_rnk=10&fmt=xml";
 
 
     console.log(query)
@@ -118,7 +118,7 @@ function parseXML(xmlData) {
         for (const field of fields) {
             var cell = document.createElement("td");
             var fieldValue = studyField.querySelectorAll('[Field=' + field.textContent + ']')[0].getElementsByTagName("FieldValue")[0];
-            cell.textContent = fieldValue.textContent;
+            cell.textContent = (fieldValue ? fieldValue.textContent : "");
             row.appendChild(cell);
         }
         tableBody.appendChild(row);

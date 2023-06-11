@@ -1,3 +1,5 @@
+var searchQ = "";
+
 document.getElementById('searchForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent form submission from refreshing the page
 
@@ -30,17 +32,20 @@ document.getElementById('searchForm').addEventListener('submit', function(event)
     var ageValues = ageRange.split("-");
 
 
-    var searchQ = condition;
+    searchQ += condition;
     if(country || state || city){
         searchQ += " AND SEARCH[Location](";
-        searchQ += country ? "AREA[LocationCountry]" + country + " AND " : "";
-        searchQ += state ? "AREA[LocationState]" + state + " AND " : "";
+        searchQ += country ? "AREA[LocationCountry]" + country : "";
+        searchQ += country && (state || city) ? " AND " : "";
+        searchQ += state ? "AREA[LocationState]" + state : "";
+        searchQ += state && city ? " AND " : "";
         searchQ += city ? "AREA[LocationCity]" + city : "";
-        searchQ += ")";
-        
+        searchQ += ")";     
     }
-    searchQ += " AND AREA[MinimumAge] RANGE[" + ageValues[0] + " years, MAX]";
-    searchQ += " AND AREA[MaximumAge] RANGE[MIN, " + ageValues[1] + " years]";
+
+    // age search
+    searchQ += " AND (AREA[MinimumAge] RANGE[" + ageValues[0] + " years, " + ageValues[1] + " years]";
+    searchQ += " AND AREA[MaximumAge] RANGE[" + ageValues[0] + " years, " + ageValues[1] + " years])";
 
     console.log(searchQ);
 
@@ -77,7 +82,25 @@ function parseXML(xmlData) {
     var parser = new DOMParser();
     var xmlDoc = parser.parseFromString(xmlData, "text/xml");
 
-    // Create table consts
+    // Delete results table if exists
+    deletePreTable();
+
+    // Div to desplay the results
+    var div1 = document.createElement('div');
+    div1.className = 'shadow p-5 mt-5 mb-5 bg-white rounded';
+    div1.id = "resultsTable"
+
+    // Get the MinRank and MaxRank and NStudiesFound
+    var min_rnk = xmlDoc.getElementsByTagName("MinRank")[0].innerHTML;
+    var max_rnk = xmlDoc.getElementsByTagName("MaxRank")[0].innerHTML;
+    var num_studies = xmlDoc.getElementsByTagName("NStudiesFound")[0].innerHTML;
+
+    // Div to display number of results
+    var numDiv = document.createElement('div');
+    numDiv.innerHTML = "";
+    numDiv.innerHTML += "<b>" + num_studies + " results found! </b><br>" 
+    numDiv.innerHTML += "<b>Results " + min_rnk + " to " + max_rnk + ":</b>";
+    div1.appendChild(numDiv)
 
     // Get the FieldList
     var fieldList = xmlDoc.getElementsByTagName("FieldList")[0];
@@ -86,8 +109,6 @@ function parseXML(xmlData) {
     var fields = fieldList.getElementsByTagName("Field");
 
     // Create an HTML table to display the fields
-    var div1 = document.createElement('div');
-    div1.className = 'shadow p-5 mt-5 mb-5 bg-white rounded';
     var table = document.createElement("table");
     table.className = "table";
     var tableHeader = document.createElement("thead");
@@ -127,7 +148,30 @@ function parseXML(xmlData) {
     table.appendChild(tableBody);
     div1.appendChild(table);
 
+    // Create button elements within a div
+    var btnDiv = document.createElement('div');
+    btnDiv.className = 'text-center';
+    
+    var preButton = document.createElement("button");
+    var nextButton = document.createElement("button");
+    preButton.classList.add("btn", "btn-primary", "mx-1");
+    nextButton.classList.add("btn", "btn-primary");
+    preButton.innerText = "Previous";
+    nextButton.innerText = "Next";
+    if(min_rnk != 1)
+        btnDiv.appendChild(preButton);
+    if(max_rnk != num_studies)
+        btnDiv.appendChild(nextButton);
+    div1.appendChild(btnDiv)
+
     // Append the table to the document
     var parentDiv = document.querySelector('.container');
     parentDiv.appendChild(div1);
 }
+
+function deletePreTable() {
+    var element = document.getElementById("resultsTable");
+    if(element)  
+        element.parentNode.removeChild(element);
+  }
+  
